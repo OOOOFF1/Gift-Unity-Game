@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.IO;
+using System;
 using static Cinemachine.DocumentationSortingAttribute;
 
 //存档管理器（单例），负责把游戏数据存成 JSON 文件到本地硬盘
@@ -29,16 +30,75 @@ public class SaveGameManager : MonoBehaviour
         }
     }
 
+    // 每次构建 Demo 时，由构建脚本生成新的 ID
+    private const string BuildIdFileName = "build_id.txt";
+
+    // 记录本次 Demo 是否已经完成存档初始化
+    private string GetBuildIdPath()
+    {
+        return Path.Combine(Application.persistentDataPath,BuildIdFileName);
+    }
+
+    private void InitializeSaveForNewBuild()
+    {
+        string buildIdPath = GetBuildIdPath();
+
+        // 从 Demo 安装目录读取构建 ID
+        string buildIdFile = Path.Combine(Application.streamingAssetsPath,BuildIdFileName);
+
+        if (!File.Exists(buildIdFile))
+        {
+            DebugUtil.LogWarning("没有找到 build_id.txt，本次不自动清理存档。");
+            return;
+        }
+
+        string currentBuildId = File.ReadAllText(buildIdFile).Trim();
+        string savedBuildId = File.Exists(buildIdPath)? File.ReadAllText(buildIdPath).Trim(): "";
+
+        if (string.IsNullOrEmpty(currentBuildId))
+        {
+            DebugUtil.LogWarning("构建 ID 为空，本次不自动清理存档。");
+            return;
+        }
+
+        if (savedBuildId != currentBuildId)
+        {
+            // 只清理本游戏使用的关卡存档和解锁存档
+            ClearAllLevelSaves();
+            ClearUnlockSave();
+
+            File.WriteAllText(buildIdPath, currentBuildId);
+
+            DebugUtil.Log($"新 Demo 首次启动，已重置旧存档。Build ID={currentBuildId}");
+        }
+        else
+        {
+            DebugUtil.Log("当前 Demo 已初始化，保留现有游戏进度。");
+        }
+    }
+
+    private void ClearAllLevelSaves()
+    {
+        // 你的 Build Settings 中关卡索引为 2、3、4
+        for (int buildIndex = 2; buildIndex <= 4; buildIndex++)
+        {
+            DeleteLevelSave(buildIndex);
+        }
+    }
     private void Awake()
     {
         if (_instance != null && _instance != this)
         {
-            DebugUtil.LogWarning(" 检测到重复 SaveGameManager，销毁重复对象");
+            DebugUtil.LogWarning("检测到重复 SaveGameManager，销毁重复对象");
             Destroy(gameObject);
             return;
         }
+
         _instance = this;
         DontDestroyOnLoad(gameObject);
+
+        InitializeSaveForNewBuild();
+
         DebugUtil.Log("SaveGameManager 初始化成功");
     }
 
@@ -171,6 +231,7 @@ public class SaveGameManager : MonoBehaviour
         int unlocked = GetUnlockedLevel();
         return levelNumber >= 1 && levelNumber < unlocked;
     }
+
 
     public void UnlockLevel(int levelNumber)
     {

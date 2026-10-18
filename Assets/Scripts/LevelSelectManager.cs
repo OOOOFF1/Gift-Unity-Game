@@ -94,7 +94,7 @@ public class LevelSelectManager : MonoBehaviour
         else
         {
             unlockedLevel = 1;
-            Debug.LogWarning( " SaveGameManager.Instance 不存在，默认只解锁 Level1");
+            Debug.LogWarning(" SaveGameManager.Instance 不存在，默认只解锁 Level1");
         }
         Debug.Log($"当前最高解锁关卡：Level{unlockedLevel}");
         RefreshPage();//真正生成按钮
@@ -118,7 +118,7 @@ public class LevelSelectManager : MonoBehaviour
             }
         }
         spawnedBtns.Clear();
-       
+
         int startIndex = currentPage * levelPerPage;//当前页从第几关开始
 
         List<GameObject> newPageButtons = new List<GameObject>();
@@ -126,8 +126,8 @@ public class LevelSelectManager : MonoBehaviour
         for (int i = 0; i < levelPerPage; i++)
         {
             int levelNum = startIndex + i + 1;
-            GameObject btnObj = Instantiate(levelBtnPrefab,contentRoot);
-            
+            GameObject btnObj = Instantiate(levelBtnPrefab, contentRoot);
+
             btnObj.SetActive(false);//先生成立刻隐藏，全部配置完再显示，消除UI闪烁
             spawnedBtns.Add(btnObj);
             newPageButtons.Add(btnObj);
@@ -135,10 +135,10 @@ public class LevelSelectManager : MonoBehaviour
             Button btnComp = btnObj.GetComponent<Button>();
             if (btnComp == null)
             {
-                Debug.LogError( $"{levelBtnPrefab.name} 上没有 Button 组件！");
+                Debug.LogError($"{levelBtnPrefab.name} 上没有 Button 组件！");
                 continue;
             }
-            
+
             btnComp.onClick.RemoveAllListeners();//清空旧点击事件           
             btnComp.interactable = false;//默认按钮不可点击
 
@@ -220,7 +220,7 @@ public class LevelSelectManager : MonoBehaviour
     /// </summary>
     private bool IsSceneInBuild(string sceneName)
     {
-        for (int i = 0; i < SceneManager.sceneCountInBuildSettings;i++)
+        for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
         {
             string path = SceneUtility.GetScenePathByBuildIndex(i);
             string name = System.IO.Path.GetFileNameWithoutExtension(path);
@@ -245,7 +245,7 @@ public class LevelSelectManager : MonoBehaviour
         // 再次检查是否解锁
         if (levelNum > unlockedLevel)
         {
-            Debug.LogWarning($"Level{levelNum} 尚未解锁！" +$"当前最高解锁：Level{unlockedLevel}");
+            Debug.LogWarning($"Level{levelNum} 尚未解锁！" + $"当前最高解锁：Level{unlockedLevel}");
             return;
         }
 
@@ -257,7 +257,7 @@ public class LevelSelectManager : MonoBehaviour
             Debug.LogError($"❌ 场景 {sceneName} 不存在于 Build Settings！");
             return;
         }
-        
+
         Debug.Log($"进入 {sceneName}");
         SceneUtil.Load(sceneName);//加载关卡场景
     }
