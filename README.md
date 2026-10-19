@@ -45,7 +45,8 @@
 
 ## Windows Demo 下载
 
-待补充。
+[Gift.zip](https://github.com/OOOOFF1/Gift-Unity-Game/releases/download/v1.0/Gift.zip)
+
 1. 下载并解压 Windows Demo。
 2. 保留 `.exe`、对应的 `_Data` 文件夹及其他构建文件。
 3. 双击 `.exe` 启动游戏。
