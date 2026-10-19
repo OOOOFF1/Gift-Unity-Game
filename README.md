@@ -34,12 +34,10 @@
 整个项目的bgm还没找到合适的所以还没有配置，暂停菜单里的第一个音量按钮是bgm的，第二个是视频的。
 
 ## 游戏截图
-
-## 游戏截图
-![游戏初始画面](Screenshots/1.png)
-![游戏开始界面](Screenshots/2.png)
-![关卡选择界面](Screenshots/3.png)
-![游戏运行画面](Screenshots/4.png)
+[游戏初始画面](Screenshots/1.png)
+[游戏开始界面](Screenshots/2.png)
+[关卡选择界面](Screenshots/3.png)
+[游戏运行画面](Screenshots/4.png)
 
 ## 演示视频
 
