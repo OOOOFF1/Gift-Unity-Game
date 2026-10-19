@@ -35,11 +35,15 @@
 
 ## 游戏截图
 
-待补充。
+## 游戏截图
+![游戏初始画面](Screenshots/1.png)
+![游戏开始界面](Screenshots/2.png)
+![关卡选择界面](Screenshots/3.png)
+![游戏运行画面](Screenshots/4.png)
 
 ## 演示视频
 
-待补充。
+[点击观看游戏演示](https://b23.tv/ZJdFaDw)
 
 ## Windows Demo 下载
 
